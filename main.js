@@ -1,8 +1,10 @@
+/* Basic Functionality */
 const time = document.getElementById('time')
 const greeting = document.getElementById('greeting')
 const name = document.getElementById('name')
 const focus = document.getElementById('focus')
 const date = document.getElementById('date')
+const setOfImgs = getFullDayImages()
 
 function showTime() {
     const dateNow = new Date()
@@ -24,27 +26,28 @@ function getZeros(n) {
 }
 
 function setBgGreet() {
-    const today = new Date()
-    hour = today.getHours()
+    const now = new Date()
+    hour = now.getHours()
     if (hour < 6) {
         // Night
-        document.body.style.backgroundImage =
-            "url(./assets/images/night/07.jpg)"
+        // document.body.style.backgroundImage =
+        //     `url(./assets/images/night/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Night, ';
+        document.body.style.color = 'white'
     } else if (hour < 12) {
         // Morning
-        document.body.style.backgroundImage =
-            "url(./assets/images/morning/06.jpg)"
+        // document.body.style.backgroundImage =
+        //     `url(./assets/images/morning/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Morning, ';
     } else if (hour < 18) {
         // Afternoon
-        document.body.style.backgroundImage =
-            "url(./assets/images/day/07.jpg)"
+        // document.body.style.backgroundImage =
+        //     `url(./assets/images/day/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Afternoon, '
     } else {
         // Evening
-        document.body.style.backgroundImage =
-            "url(./assets/images/evening/04.jpg)"
+        // document.body.style.backgroundImage =
+        //     `url(./assets/images/evening/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Evening, '
         document.body.style.color = 'white'
     }
@@ -160,3 +163,169 @@ name.addEventListener('blur', getName)
 name.addEventListener('focus', enterName)
 focus.addEventListener('focus', enterFocus)
 focus.addEventListener('blur', getFocus)
+
+
+/* Quote */
+const blockquote = document.querySelector('blockquote')
+const figcaption = document.querySelector('figcaption')
+const quoteBtn = document.querySelector('.quoteBtn')
+
+async function getQuote() {
+    const randQuoteNumber = getRandomInt(1643)
+    const url = `https://type.fit/api/quotes`
+    const res = await fetch(url)
+    const data = await res.json()
+    blockquote.textContent = data[randQuoteNumber].text
+    figcaption.textContent = data[randQuoteNumber].author
+}
+document.addEventListener('DOMContentLoaded', getQuote)
+quoteBtn.addEventListener('click', getQuote)
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max))
+}
+
+/* Images */
+/* 6 Images */
+function getSetOfImages() {
+    let imgArr = []
+    while (imgArr.length < 6) {
+        let number = getRandomInt(19)
+        if (imgArr.indexOf(number) === -1) {
+            imgArr.push(number)
+        }
+    }
+    imgArr = imgArr.map(item => String(getZeros(item)))
+    return imgArr
+}
+/* 4 Arrays of 6 Images */
+function getFullDayImages() {
+    let fullDayArr = []
+    while (fullDayArr.length < 4) {
+        let sixHoursSet = getSetOfImages()
+        fullDayArr.push(sixHoursSet)
+    }
+    return fullDayArr
+}
+let i = 0
+function set24BgGreet(i = 0) {
+    const now = new Date()
+    hours = now.getHours()
+    let item = i ? hours + i : hours
+    switch (item) {
+        case 0:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][0]}.jpg)`
+            break
+        case 1:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][1]}.jpg)`
+            break
+        case 2:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][2]}.jpg)`
+            break
+        case 3:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][3]}.jpg)`
+            break
+        case 4:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][4]}.jpg)`
+            break
+        case 5:
+            document.body.style.backgroundImage =
+                `url(./assets/images/night/${setOfImgs[0][5]}.jpg)`
+            break
+        case 6:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][0]}.jpg)`
+            break
+        case 7:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][1]}.jpg)`
+            break
+        case 8:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][2]}.jpg)`
+            break
+        case 9:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][3]}.jpg)`
+            break
+        case 10:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][4]}.jpg)`
+            break
+        case 11:
+            document.body.style.backgroundImage =
+                `url(./assets/images/morning/${setOfImgs[1][5]}.jpg)`
+            break
+        case 12:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][0]}.jpg)`
+            break
+        case 13:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][1]}.jpg)`
+            break
+        case 14:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][2]}.jpg)`
+            break
+        case 15:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][3]}.jpg)`
+            break
+        case 16:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][4]}.jpg)`
+            break
+        case 17:
+            document.body.style.backgroundImage =
+                `url(./assets/images/day/${setOfImgs[2][5]}.jpg)`
+            break
+        case 18:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][0]}.jpg)`
+            break
+        case 19:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][1]}.jpg)`
+            break
+        case 20:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][2]}.jpg)`
+            break
+        case 21:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][3]}.jpg)`
+            break
+        case 22:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][4]}.jpg)`
+            break
+        case 23:
+            document.body.style.backgroundImage =
+                `url(./assets/images/evening/${setOfImgs[3][5]}.jpg)`
+            break
+    }
+}
+document.addEventListener('DOMContentLoaded', set24BgGreet())
+
+function changeImage() {
+    const now = new Date()
+    hours = now.getHours()
+    if (i < 23 - hours) {
+        i++
+    } else if (i === 23 - hours) {
+        i = -hours
+    }
+    // console.log(i)
+    set24BgGreet(i)
+    bgBtn.disabled = true;
+    setTimeout(function () { bgBtn.disabled = false }, 1000);
+}
+
+const bgBtn = document.querySelector('.bgBtn')
+bgBtn.addEventListener('click', changeImage)

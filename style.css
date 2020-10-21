@@ -12,6 +12,8 @@ body {
     text-align: center;
     height: 100vh;
     color: black;
+    padding: 1rem;
+    transition: background-image 1s ease-in-out;
 }
 #date {
     font-size: 2rem;
@@ -27,8 +29,11 @@ body {
     min-width: 1rem;
 }
 h1 {
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 h2 {
     margin-bottom: 0.5rem;
@@ -45,3 +50,65 @@ h2 {
         font-size: 5rem;
     }
 }
+
+
+/* Quote */
+.quoteBtn {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 50%;
+    background-image: url("https://www.pngarts.com/files/7/Update-Button-PNG-Image.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: grayscale(.8);
+    margin: 10px;
+    cursor: pointer;
+  }
+  .quoteBtn:hover {
+    filter: grayscale(.2);
+  }
+  .quoteBtn:active,
+  .quoteBtn:focus {
+    outline: 0;
+  }
+  .quoteBtn:active{
+    transform: scale(1.02)
+  }
+
+  .quote {
+      position: fixed;
+      bottom: 0.2rem;
+      margin: 1rem;
+      margin-bottom: 0;
+  }
+  figcaption {
+      margin-top: 0.3rem;
+  }
+
+  /* Images */
+  .bgBtn {
+    position: fixed;
+    top: 1rem;  
+    left: 1rem;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 50%;
+    background-image: url("https://www.pngarts.com/files/7/Update-Button-PNG-Image.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: grayscale(.8);
+    margin: 10px;
+    cursor: pointer;
+  }
+  .bgBtn:hover {
+    filter: grayscale(.2);
+  }
+  .bgBtn:active,
+  .bgBtn:focus {
+    outline: 0;
+  }
+  .bgBtn:active{
+    transform: scale(1.02)
+  }
