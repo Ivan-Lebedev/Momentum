@@ -21,10 +21,10 @@ body {
 }
 #name {
     margin-left: 0.5rem;
-    min-width: 5rem;
+    min-width: 1rem;
 }
 #focus {
-    min-width: 5rem;
+    min-width: 1rem;
 }
 h1 {
     margin-bottom: 3rem;
