@@ -5,6 +5,7 @@ const name = document.getElementById('name')
 const focus = document.getElementById('focus')
 const date = document.getElementById('date')
 const setOfImgs = getFullDayImages()
+const weatherWrapper = document.querySelector('.weather-wrapper')
 
 function showTime() {
     const dateNow = new Date()
@@ -17,6 +18,7 @@ function showTime() {
 
     time.innerHTML = `${getZeros(hours)}:${getZeros(minutes)}:${getZeros(seconds)}`
     date.innerHTML = `${getDayOfWeek(dayOfWeek)}, ${getZeros(dateDate)} ${getMonthOfYear(month)}`
+    // date.innerHTML = dateNow.toDateString() // simple solution
 
     setTimeout(showTime, 1000)
 }
@@ -30,26 +32,20 @@ function setBgGreet() {
     hour = now.getHours()
     if (hour < 6) {
         // Night
-        // document.body.style.backgroundImage =
-        //     `url(./assets/images/night/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Night, ';
         document.body.style.color = 'white'
+        weatherWrapper.style.background = '#607D8B'
     } else if (hour < 12) {
         // Morning
-        // document.body.style.backgroundImage =
-        //     `url(./assets/images/morning/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Morning, ';
     } else if (hour < 18) {
         // Afternoon
-        // document.body.style.backgroundImage =
-        //     `url(./assets/images/day/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Afternoon, '
     } else {
         // Evening
-        // document.body.style.backgroundImage =
-        //     `url(./assets/images/evening/${getZeros(getRandomInt(19))}.jpg)`
         greeting.textContent = 'Good Evening, '
         document.body.style.color = 'white'
+        weatherWrapper.style.background = '#607D8B'
     }
 }
 
@@ -323,9 +319,73 @@ function changeImage() {
     }
     // console.log(i)
     set24BgGreet(i)
-    bgBtn.disabled = true;
-    setTimeout(function () { bgBtn.disabled = false }, 1000);
+    bgBtn.disabled = true
+    setTimeout(function () { bgBtn.disabled = false }, 1000)
 }
 
 const bgBtn = document.querySelector('.bgBtn')
 bgBtn.addEventListener('click', changeImage)
+
+/* Weather */
+const weatherIcon = document.querySelector('.weather-icon-wrapper')
+const temperature = document.querySelector('.temperature')
+const weatherDesc = document.querySelector('.weather-desc')
+const weatherHumidity = document.querySelector('.humidity')
+const weatherWind = document.querySelector('.wind')
+const city = document.querySelector('.city-input')
+
+async function getWeather() {
+    const API_KEY = 'a5163f5e55376d613d9d607518cb87fa'
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&appid=${API_KEY}&units=metric`
+    
+    const res = await fetch(url)
+    const data = await res.json()
+
+    if (!res.ok && city.textContent != '[Enter City]' && city.textContent != '') {
+        weatherDesc.textContent = `Location not found`
+        return
+    }
+
+    temperature.textContent = `${data.main.temp}°C`
+    weatherDesc.textContent = data.weather[0].description
+    weatherWind.textContent = `Wind: ${data.wind.speed} m/s`
+    weatherHumidity.textContent = `Humidity: ${data.main.humidity} %`
+    weatherIcon.innerHTML = `
+        <img class="weather-icon"
+        src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
+        alt="weather-icon">
+        `
+}
+
+function getCity() {
+    if (localStorage.getItem('city') === null || localStorage.getItem('city') === '') {
+        city.textContent = '[Enter City]'
+    } else {
+        city.textContent = localStorage.getItem('city')
+    }
+}
+
+function setCity(e) {
+    if (e.type === 'keypress') {
+        if (e.which == 13 || e.keyCode == 13) {
+            localStorage.setItem('city', e.target.innerText.trim())
+            getWeather()
+            city.blur()
+        }
+    } else {
+        localStorage.setItem('city', e.target.innerText.trim())
+    }
+}
+
+function enterCity(e) {
+    if (city.textContent === '[Enter City]')
+        city.textContent = ''
+}
+
+document.addEventListener('DOMContentLoaded', getWeather)
+city.addEventListener('keypress', setCity)
+city.addEventListener('blur', setCity)
+city.addEventListener('blur', getCity)
+city.addEventListener('focus', enterCity)
+
+getCity()
